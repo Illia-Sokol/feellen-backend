@@ -3,12 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var dealsRouter = require('./routes/deals');
 
 var app = express();
-// const WebSocket = requier('ws');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
 app.use('/', indexRouter);
 app.use('/deals', dealsRouter);
 
@@ -38,8 +39,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// create ws
-// const connection = new WebSocket.server()
 
 module.exports = app;
